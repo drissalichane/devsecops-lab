@@ -6,7 +6,7 @@ This is an intentionally vulnerable Spring Boot application created for learning
 - SQL Injection in user search endpoint
 - Hardcoded secrets in configuration
 - Vulnerable dependency (Commons Te xt 1.9)
-- Insecure Docker configuration
+- Insecure Docker configurationc
  
 ## Running Locally
 ```bash
