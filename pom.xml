@@ -20,6 +20,7 @@
     
     <properties>
         <java.version>17</java.version>
+        <commons-lang3.version>3.18.0</commons-lang3.version>
     </properties>
     
     <dependencies>
@@ -41,7 +42,14 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        
+
+        <!-- Adding this to override the vulnerable transitive dependency -->
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+    </dependency>
+
         <!-- VULNERABLE DEPENDENCY: Old version of Commons Text with CVE-2022-42889 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
