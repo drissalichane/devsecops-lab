@@ -81,13 +81,20 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/maven@master
+      - name: Install Snyk CLI
+        run: |
+          curl -o snyk https://static.snyk.io/cli/latest/snyk-linux
+          chmod +x snyk
+          sudo mv snyk /usr/local/bin/
+      
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+      
+      - name: Run Snyk test
+        run: |
+          snyk test --severity-threshold=high --json-file-output=snyk-report.json || true
+          snyk test --severity-threshold=high  # Human-readable output to logs
         continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --severity-threshold=high --json-file-output=snyk-report.json
       
       - name: Upload Snyk Report
         if: always()
