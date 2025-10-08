@@ -1,8 +1,9 @@
-title = "Custom Gitleaks config"
+title = "Custom Gitleaks Config"
 
-[[rules]]
-description = "Ignore false positives in README"
-id = "ignore-readme"
-regex = '''(?i)(cafebabe:deadbeef|DB_PASSWORD=8ae31cacf141669ddfb5da)'''
-path = "README.md"
-entropy = 0
+[allowlist]
+description = "Ignore known false positives in README"
+files = ["README.md"]
+regexes = [
+    '''cafebabe:deadbeef''',
+    '''DB_PASSWORD=8ae31cacf141669ddfb5da'''
+]
