@@ -1,0 +1,8 @@
+title = "Custom Gitleaks config"
+
+[[rules]]
+description = "Ignore false positives in README"
+id = "ignore-readme"
+regex = '''(?i)(cafebabe:deadbeef|DB_PASSWORD=8ae31cacf141669ddfb5da)'''
+path = "README.md"
+entropy = 0

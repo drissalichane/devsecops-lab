@@ -29,8 +29,7 @@ jobs:
 
       # adding --no-git to temporarily ignore commit history
     - name: Run Gitleaks Secret Scan
-      run: gitleaks detect --source . --no-git --verbose --log-level debug --exit-code 1 --report-path gitleaks-report.json
-
+      run: gitleaks detect --source . --no-git --verbose --config .gitleaks.toml --exit-code 1 --report-path gitleaks-report.json
     - name: Upload Gitleaks Report
       if: always()  # Upload even if scan fails
       uses: actions/upload-artifact@v4
