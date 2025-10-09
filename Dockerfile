@@ -1,20 +1,17 @@
-# Use a lightweight and secure Java base image
-FROM eclipse-temurin:21-jre-alpine
+# Still an old Node.js version — intentionally vulnerable
+FROM node:12-buster-slim
 
-# Create a non-root user (important for security)
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+# Switch Debian sources to the archived EOL repositories
+RUN sed -i 's|deb.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
+    sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list && \
+    echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99ignore-release-date && \
+    apt-get update && \
+    apt-get install -y openjdk-11-jre-headless wget && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set working directory
 WORKDIR /app
-
-# Copy your application JAR file into the image
 COPY target/*.jar app.jar
 
-# Switch to non-root user
-USER appuser
-
-# Expose the app port
+# Still running as root (intentional vulnerability)
 EXPOSE 8080
-
-# Run the application
 CMD ["java", "-jar", "app.jar"]
