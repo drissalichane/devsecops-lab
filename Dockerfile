@@ -1,22 +1,15 @@
-# VULNERABLE VERSION: Using CentOS 7 (EOL June 2024)
-FROM centos:7
+# VULNERABLE VERSION: Node.js 12 base (has known vulnerabilities)
+# We'll install Java on top of it
+FROM node:12-buster-slim
 
-# Install Java 8
-RUN yum update -y && \
-    yum install -y java-1.8.0-openjdk-headless && \
-    yum clean all
+# Install old Java 11
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jre-headless wget && \
+    rm -rf /var/lib/apt/lists/*
 
-# Create application directory
 WORKDIR /app
-
-# Copy the JAR file
 COPY target/*.jar app.jar
 
 # VULNERABILITY: Running as root user
-# No user isolation
-
-# Expose the application port
 EXPOSE 8080
-
-# Run as root
 CMD ["java", "-jar", "app.jar"]
